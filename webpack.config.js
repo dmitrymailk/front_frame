@@ -2,20 +2,10 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
-  entry: {
-    index: {
-      import: "./src/index.js",
-      dependOn: "shared",
-    },
-    another: {
-      import: "./src/another-module.js",
-      dependOn: "shared",
-    },
-    shared: "./src/print.js",
-  },
+  entry: "./src/index.js",
   output: {
     path: path.resolve(__dirname, "dist"),
-    filename: "[name].[contenthash].js",
+    filename: "bundle.[contenthash].js",
     clean: true,
     // see more https://webpack.js.org/guides/development/#using-webpack-dev-middleware
     publicPath: "/",
@@ -45,8 +35,10 @@ module.exports = {
   ],
   // see more https://webpack.js.org/guides/development/#using-webpack-dev-server
   devServer: {
-    contentBase: "./dist",
-    host: 5000,
+    // contentBase: "./dist",
+    host: "localhost",
+    liveReload: true,
+    port: 3000,
   },
   module: {
     rules: [

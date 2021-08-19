@@ -4,7 +4,7 @@
   "description": "- simple frontend framework",
   "main": "webpack.config.js",
   "scripts": {
-    "start": "webpack serve --open",
+    "start": "webpack serve",
     "build": "webpack",
     "watch": "webpack --watch",
     "server": "node server.js"
