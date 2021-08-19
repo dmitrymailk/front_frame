@@ -2,14 +2,13 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
-  entry: {
-    index: "./src/index.js",
-    print: "./src/print.js",
-  },
+  entry: "./src/index.js",
   output: {
     path: path.resolve(__dirname, "dist"),
-    filename: "[name].bundle.js",
+    filename: "bundle.js",
     clean: true,
+    // see more https://webpack.js.org/guides/development/#using-webpack-dev-middleware
+    publicPath: "/",
   },
   // see more https://webpack.js.org/guides/development/#using-source-maps
   devtool: "inline-source-map",
@@ -20,6 +19,11 @@ module.exports = {
       title: "front frame",
     }),
   ],
+  // see more https://webpack.js.org/guides/development/#using-webpack-dev-server
+  devServer: {
+    contentBase: "./dist",
+    host: 5000,
+  },
   module: {
     rules: [
       // see more https://webpack.js.org/guides/asset-management/#loading-css
