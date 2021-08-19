@@ -1,4 +1,4 @@
 export default function printMe() {
-  console.log("Hello w");
+  console.log("Hello world");
   // hello
 }

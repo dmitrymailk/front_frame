@@ -2,13 +2,37 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
-  entry: "./src/index.js",
+  entry: {
+    index: {
+      import: "./src/index.js",
+      dependOn: "shared",
+    },
+    another: {
+      import: "./src/another-module.js",
+      dependOn: "shared",
+    },
+    shared: "./src/print.js",
+  },
   output: {
     path: path.resolve(__dirname, "dist"),
-    filename: "bundle.js",
+    filename: "[name].[contenthash].js",
     clean: true,
     // see more https://webpack.js.org/guides/development/#using-webpack-dev-middleware
     publicPath: "/",
+  },
+  // see more https://webpack.js.org/guides/code-splitting/#entry-dependencies
+  optimization: {
+    moduleIds: "deterministic",
+    runtimeChunk: "single",
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: "vendors",
+          chunks: "all",
+        },
+      },
+    },
   },
   // see more https://webpack.js.org/guides/development/#using-source-maps
   devtool: "inline-source-map",
