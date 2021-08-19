@@ -1,1 +1,5 @@
-import "./component.js";
+import render from "./render";
+
+window.onload = () => {
+  render();
+};
