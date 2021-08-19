@@ -24,7 +24,7 @@ class _div {
   _addProperties() {
     this._html_element.className = this.classname;
     this._html_element.textContent = this.textContent;
-    this._html_element.style = this._style;
+    if (this._style) this._html_element.style = this._style;
   }
 
   _addBlocks() {
@@ -33,6 +33,13 @@ class _div {
         this._html_element.appendChild(element.output);
       }
     }
+  }
+  // set style(style) {
+  //   this.output.style = style;
+  // }
+
+  get style() {
+    return this.output.style;
   }
 }
 
