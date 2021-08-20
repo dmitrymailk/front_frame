@@ -1,4 +1,4 @@
-import div from "../html_components/div";
+import div from "../frame/html_components/div";
 
 export class Component {
   constructor() {
@@ -15,7 +15,7 @@ export class Component {
       div({ textContent: "Первый элемент", classname: "test" }),
       div({ textContent: "Текст второго элемента", classname: "test2" }),
     ];
-    this._style();
+    this.style = this._style();
     this.styling();
     this.output = this._parent;
   }
@@ -33,16 +33,15 @@ export class Component {
     for (let i = 0; i < this._blocks.length; i += 1) {
       let classname = this._blocks[i].classname;
       if (this.style[classname]) {
-        // debugger;
         Object.assign(this._blocks[i].style, this.style[classname]);
-        //  = ;
-        console.log(this.style[classname]);
       }
     }
   }
 
   _style() {
-    this.style = {
+    // почему это функция, а не просто описание в constructor?
+    // потому что позицию написания функции можно выбирать, а конструктор нет
+    return {
       test: {
         border: "2px solid #123123",
         borderRadius: "4px",

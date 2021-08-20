@@ -34,9 +34,10 @@ class _div {
       }
     }
   }
-  // set style(style) {
-  //   this.output.style = style;
-  // }
+
+  set style(style) {
+    this.output.style = style;
+  }
 
   get style() {
     return this.output.style;
