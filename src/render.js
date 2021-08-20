@@ -1,4 +1,4 @@
-import component from "./app/component";
+import component from "./app/Component";
 
 export default function render() {
   const main = document.createElement("div");

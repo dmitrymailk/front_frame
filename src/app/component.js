@@ -1,66 +1,27 @@
-import div from "../frame/html_components/div";
+import { BaseAbstractComponent } from "../frame/abstract_components/BaseAbstractComponent";
+import Item from "./Item";
+import button from "../frame/html_components/button";
 
-export class Component {
+export class Component extends BaseAbstractComponent {
   constructor() {
-    this._blocks = [];
-    this.output = null;
-    this._parent = document.createElement("div");
-    this.style = {};
-
-    this._init();
-    this.render();
+    super();
   }
-  _init() {
-    this._blocks = [
-      div({ textContent: "Первый элемент", classname: "test" }),
-      div({ textContent: "Текст второго элемента", classname: "test2" }),
+
+  blocks() {
+    let tasks = ["Item1", "Item2", "Item3", "Item4", "Item5"];
+    return [
+      button({ textContent: "Click on me!", className: "myButton" }),
+      ...tasks.map((text) => Item({ text: text })),
     ];
-    this.style = this._style();
-    this.styling();
-    this.output = this._parent;
   }
 
-  render() {
-    if (this._blocks.length > 0) {
-      // TODO подумать о том как можно избежать создания оберточного элемента
-      for (const element of this._blocks) {
-        this._parent.appendChild(element.output);
-      }
-    }
-  }
-
-  styling() {
-    for (let i = 0; i < this._blocks.length; i += 1) {
-      let classname = this._blocks[i].classname;
-      if (this.style[classname]) {
-        Object.assign(this._blocks[i].style, this.style[classname]);
-      }
-    }
-  }
-
-  _style() {
-    // почему это функция, а не просто описание в constructor?
-    // потому что позицию написания функции можно выбирать, а конструктор нет
+  style() {
     return {
-      test: {
-        border: "2px solid #123123",
-        borderRadius: "4px",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "32px",
+      myButton: {
         width: "320px",
-        margin: "16px 0 0 0",
-      },
-      test2: {
-        border: "2px solid blue",
+        height: "32px",
         borderRadius: "4px",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "64px",
-        width: "380px",
-        margin: "32px 0 0 0",
+        cursor: "pointer",
       },
     };
   }
