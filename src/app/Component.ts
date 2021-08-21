@@ -7,7 +7,7 @@ export class Component extends BaseAbstractComponent {
     super();
   }
 
-  blocks() {
+  get components() {
     let tasks = ["Item1", "Item2", "Item3", "Item4", "Item5"];
     return [
       button({ textContent: "Click on me!", className: "myButton" }),
@@ -15,7 +15,7 @@ export class Component extends BaseAbstractComponent {
     ];
   }
 
-  style() {
+  get style() {
     return {
       myButton: {
         width: "320px",

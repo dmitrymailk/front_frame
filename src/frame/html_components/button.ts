@@ -1,7 +1,12 @@
 import { BaseHTMLComponent } from "./BaseHTMLComponent";
 
+export interface buttonParams {
+  textContent?: string;
+  style?: object;
+  className?: string;
+}
 export class button extends BaseHTMLComponent {
-  constructor({ textContent = "", style = "", className = "" } = {}) {
+  constructor({ textContent = "", style = {}, className = "" }: buttonParams) {
     super({
       style,
       elementType: "button",
@@ -12,8 +17,8 @@ export class button extends BaseHTMLComponent {
 
 export default function ({
   textContent = "",
-  style = "",
+  style = {},
   className = "",
-} = {}) {
+}: buttonParams) {
   return new button({ textContent, style, className });
 }

@@ -6,6 +6,7 @@ export default function render() {
   let mainBlocks = [component()];
 
   for (const element of mainBlocks) {
+    // @ts-ignore
     main.appendChild(element.output);
   }
 

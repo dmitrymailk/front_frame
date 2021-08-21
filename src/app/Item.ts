@@ -1,20 +1,26 @@
 import div from "../frame/html_components/div";
 import { BaseAbstractComponent } from "../frame/abstract_components/BaseAbstractComponent";
 
+interface ItemParams {
+  text: string;
+}
+
 export class Item extends BaseAbstractComponent {
-  constructor({ text = "" }) {
+  text: string;
+
+  constructor({ text = "" }: ItemParams) {
     super();
     this.text = text;
     this.update();
   }
 
-  blocks() {
+  get components() {
     // debugger;
 
     return [div({ className: "todo-item", textContent: this.text })];
   }
 
-  style() {
+  get style() {
     return {
       "todo-item": {
         border: "2px solid blue",
@@ -30,6 +36,6 @@ export class Item extends BaseAbstractComponent {
   }
 }
 
-export default function ({ text = "" }) {
+export default function ({ text = "" }: ItemParams) {
   return new Item({ text });
 }

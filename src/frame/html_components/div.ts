@@ -1,12 +1,22 @@
-import { BaseHTMLComponent } from "./BaseHTMLComponent";
+import {
+  BaseHTMLComponent,
+  BaseHTMLComponentParams,
+} from "./BaseHTMLComponent";
+
+export interface divParams {
+  className?: string;
+  textContent?: string;
+  blocks?: BaseHTMLComponent[];
+  style?: object;
+}
 
 export class div extends BaseHTMLComponent {
   constructor({
     className = "",
     textContent = "",
     blocks = [],
-    style = "",
-  } = {}) {
+    style = {},
+  }: divParams) {
     super({
       blocks,
       style,
@@ -20,7 +30,7 @@ export default function ({
   className = "",
   textContent = "",
   blocks = [],
-  style = "",
-} = {}) {
+  style = {},
+}: divParams) {
   return new div({ className, textContent, blocks, style });
 }
