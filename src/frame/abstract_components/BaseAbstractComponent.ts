@@ -1,22 +1,21 @@
-// export interface BaseAbstractComponentParams {
-//   blocks: BaseAbstractComponent[],
-//   o
-// }
+export interface BaseAbstractComponentParams {
+  isVirtual?: Boolean;
+}
 
 import { BaseHTMLComponent } from "../html_components/BaseHTMLComponent";
 
-export abstract class BaseAbstractComponent {
+export class BaseAbstractComponent {
   private _components: (BaseHTMLComponent | BaseAbstractComponent)[];
   output: BaseHTMLComponent | BaseAbstractComponent;
   private _style: object;
-  isAbstract: Boolean;
+  isVirtual: Boolean;
   private parent: any;
 
-  constructor() {
+  constructor({ isVirtual = true }: BaseAbstractComponentParams = {}) {
     this._components = [];
     this.output = null;
     this._style = {};
-    this.isAbstract = true;
+    this.isVirtual = isVirtual;
 
     this.init();
     this.render();
@@ -51,7 +50,7 @@ export abstract class BaseAbstractComponent {
      * регламинтировать поведение стилей
      */
     for (let i = 0; i < this._components.length; i += 1) {
-      if (!this._components[i].isAbstract) {
+      if (!this._components[i].isVirtual) {
         let className = (this._components[i] as BaseHTMLComponent).attributes
           .className;
         // @ts-ignore

@@ -3,20 +3,20 @@ import {
   BaseHTMLComponentParams,
 } from "./BaseHTMLComponent";
 
-export interface divParams {
+export interface _divParams {
   className?: string;
   textContent?: string;
   blocks?: BaseHTMLComponent[];
   style?: object;
 }
 
-export class div extends BaseHTMLComponent {
+export class _div extends BaseHTMLComponent {
   constructor({
     className = "",
     textContent = "",
     blocks = [],
     style = {},
-  }: divParams) {
+  }: _divParams) {
     super({
       blocks,
       style,
@@ -26,11 +26,11 @@ export class div extends BaseHTMLComponent {
   }
 }
 
-export default function ({
+export function div({
   className = "",
   textContent = "",
   blocks = [],
   style = {},
-}: divParams) {
-  return new div({ className, textContent, blocks, style });
+}: _divParams) {
+  return new _div({ className, textContent, blocks, style });
 }

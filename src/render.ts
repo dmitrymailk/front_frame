@@ -1,9 +1,9 @@
-import component from "./app/Component";
+import { TodoComponent } from "./app/TodoComponent";
 
 export default function render() {
   const main = document.createElement("div");
   main.id = "mainBlock";
-  let mainBlocks = [component()];
+  let mainBlocks = [TodoComponent()];
 
   for (const element of mainBlocks) {
     // @ts-ignore

@@ -3,29 +3,33 @@ export interface BaseHTMLComponentParams {
   elementType: string;
   blocks?: BaseHTMLComponent[];
   style?: object;
+  listeners?: object[];
 }
 
 export class BaseHTMLComponent {
   public attributes: any;
-  isAbstract: Boolean;
+  isVirtual: Boolean;
   output: any;
   private blocks: BaseHTMLComponent[];
   private _style: object;
   private elementType: string;
   // TODO сделать свой класс Node
   private htmlElement: any;
+  private listeners: object[];
 
   constructor({
     attributes = {},
     elementType = "div",
     blocks = [],
     style = {},
+    listeners = [],
   }: BaseHTMLComponentParams) {
     this.attributes = attributes;
     this.blocks = blocks;
     this._style = style;
     this.elementType = elementType;
-    this.isAbstract = false;
+    this.isVirtual = false;
+    this.listeners = listeners;
 
     this.htmlElement = document.createElement(this.elementType);
     this.output = this.htmlElement;
@@ -34,7 +38,8 @@ export class BaseHTMLComponent {
 
   private init() {
     this.addProperties();
-    this.addBlocks();
+    this.addListeners();
+    this.addComponents();
     this.output = this.htmlElement;
   }
 
@@ -49,7 +54,7 @@ export class BaseHTMLComponent {
     }
   }
 
-  private addBlocks() {
+  private addComponents() {
     if (this.blocks.length > 0) {
       for (const element of this.blocks) {
         this.htmlElement.appendChild(element.output);
@@ -57,9 +62,19 @@ export class BaseHTMLComponent {
     }
   }
 
+  private addListeners() {
+    if (this.listeners.length > 0) {
+      for (const event of this.listeners) {
+        let eventType = Object.keys(event)[0];
+        // @ts-ignore
+        let eventFunction = event[eventType];
+        this.htmlElement.addEventListener(eventType, eventFunction);
+      }
+    }
+  }
+
   public set style(payload: object) {
     if (payload) {
-      // console.log(payload);
       Object.assign(this.output.style, payload);
     }
   }
