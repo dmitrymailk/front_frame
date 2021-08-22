@@ -6,6 +6,7 @@ export default function render() {
   let mainBlocks = [TodoComponent()];
 
   for (const element of mainBlocks) {
+    element.update();
     // @ts-ignore
     main.appendChild(element.output);
   }

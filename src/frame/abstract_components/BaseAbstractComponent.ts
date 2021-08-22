@@ -16,12 +16,9 @@ export class BaseAbstractComponent {
     this.output = null;
     this._style = {};
     this.isVirtual = isVirtual;
-
-    this.init();
-    this.render();
   }
 
-  private init() {
+  public init() {
     this.parent = document.createElement("div");
     this._components = this.components;
     this._style = this.style;
@@ -37,7 +34,8 @@ export class BaseAbstractComponent {
   render() {
     if (this._components.length > 0) {
       // TODO подумать о том как можно избежать создания оберточного элемента
-      for (const element of this._components) {
+      for (let element of this._components) {
+        element.update();
         this.parent.appendChild(element.output);
       }
     }

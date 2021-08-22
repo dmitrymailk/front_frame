@@ -8,19 +8,16 @@ export class _TodoComponent extends BaseAbstractComponent {
 
   constructor() {
     super();
-    this.tasks = ["Item1", "Item2", "Item3", "Item4", "Item5"];
+    this.tasks = ["Item1", "Item2", "Item3", "Item4", "Item5", "New item"];
     // debugger;
     this.counter = 0;
   }
 
   get components() {
-    console.log(this.tasks);
-
     // debugger;
     return [
       button({ textContent: "Click on me!", className: "myButton" }),
-      // TODO не могу обращаться к данным нового класса для рендеринга
-      // ...this.tasks.map((text) => Item({ text: text })),
+      ...this.tasks.map((text) => Item({ text: text })),
     ];
   }
 

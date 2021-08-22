@@ -33,14 +33,18 @@ export class BaseHTMLComponent {
 
     this.htmlElement = document.createElement(this.elementType);
     this.output = this.htmlElement;
-    this.init();
+    // this.init();
   }
 
-  private init() {
+  public init() {
     this.addProperties();
     this.addListeners();
     this.addComponents();
     this.output = this.htmlElement;
+  }
+
+  public update() {
+    this.init();
   }
 
   private addProperties() {
@@ -56,7 +60,8 @@ export class BaseHTMLComponent {
 
   private addComponents() {
     if (this.blocks.length > 0) {
-      for (const element of this.blocks) {
+      for (let element of this.blocks) {
+        element.update();
         this.htmlElement.appendChild(element.output);
       }
     }
