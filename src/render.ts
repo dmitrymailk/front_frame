@@ -1,15 +1,42 @@
-import { TodoComponent } from "./app/TodoComponent";
+// types
+import { BaseHTMLComponent } from "./frame/html_components/BaseHTMLComponent";
+import { BaseAbstractComponent } from "./frame/abstract_components/BaseAbstractComponent";
 
-export default function render() {
-  const main = document.createElement("div");
-  main.id = "mainBlock";
-  let mainBlocks = [TodoComponent()];
+export interface RenderParams {
+  component?: BaseAbstractComponent[];
+  mainBlockSelector?: string;
+}
 
-  for (let element of mainBlocks) {
-    element.update();
-    // @ts-ignore
-    main.appendChild(element.output);
+export class Render {
+  component: (BaseHTMLComponent | BaseAbstractComponent)[];
+  output: any;
+  mainBlockSelector: string;
+
+  constructor({ component = [], mainBlockSelector = "body" }: RenderParams) {
+    this.component = component;
+    this.output = document.createElement("div");
+    this.mainBlockSelector = mainBlockSelector;
   }
 
-  document.body.appendChild(main);
+  init() {
+    this.output.id = this.mainBlockSelector;
+
+    for (let element of this.component) {
+      element.update();
+      // @ts-ignore
+      this.output.appendChild(element.output);
+    }
+
+    document.body.appendChild(this.output);
+  }
+
+  update() {
+    for (let element of this.component) {
+      element.update();
+      // @ts-ignore
+      this.output.appendChild(element.output);
+    }
+
+    document.body.appendChild(this.output);
+  }
 }
