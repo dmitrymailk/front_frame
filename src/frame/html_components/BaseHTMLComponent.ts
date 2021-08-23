@@ -69,6 +69,7 @@ export class BaseHTMLComponent {
 
   private addListeners() {
     if (this.listeners.length > 0) {
+      // debugger;
       for (const event of this.listeners) {
         let eventType = Object.keys(event)[0];
         // @ts-ignore

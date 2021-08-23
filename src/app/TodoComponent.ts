@@ -8,22 +8,32 @@ export class _TodoComponent extends BaseAbstractComponent {
 
   constructor() {
     super();
-    this.tasks = ["Item1", "Item2", "Item3", "Item4", "Item5", "New item"];
+    this.tasks = ["Item1", "Item2", "Item3", "Item4", "Item5"];
     // debugger;
     this.counter = 0;
   }
 
   get components() {
-    // debugger;
     return [
-      button({ textContent: "Click on me!", className: "myButton" }),
+      button({
+        textContent: "Click on me!",
+        className: "myButton",
+        listeners: [
+          // TODO сделать так чтобы передавать контекст было не нужно
+          {
+            click: this.addElement.bind(this),
+          },
+        ],
+      }),
       ...this.tasks.map((text) => Item({ text: text })),
     ];
   }
 
   addElement() {
+    console.log("add", this);
     this.tasks.unshift(`New task ${this.counter}`);
     this.counter += 1;
+    // this.update();
   }
 
   get style() {
