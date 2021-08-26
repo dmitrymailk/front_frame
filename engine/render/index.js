@@ -13,6 +13,7 @@ class Component {
       textContent: "",
       className: "",
     },
+    listeners = [],
   }) {
     this.components = components;
     this.isAbstract = isAbstract;
@@ -20,6 +21,8 @@ class Component {
     this.rootComponent = null;
     this.htmlTag = htmlTag;
     this.attributes = attributes;
+
+    this.listeners = listeners;
 
     this.init();
   }
@@ -29,6 +32,15 @@ class Component {
       this.rootComponent = document.createElement(this.htmlTag);
       // add attributes
       Object.assign(this.rootComponent, this.attributes);
+
+      // add listeners
+      if (this.listeners.length > 0) {
+        for (const event of this.listeners) {
+          let eventType = Object.keys(event)[0];
+          let eventFunction = event[eventType];
+          this.rootComponent.addEventListener(eventType, eventFunction);
+        }
+      }
     } else {
       this.rootComponent = new DocumentFragment();
     }
@@ -41,10 +53,19 @@ class Component {
 }
 
 class TodoApp {
-  constructor({ components = [], className = "TodoApp" }) {
+  constructor({ components = [], className = "TodoApp", parent = null }) {
+    if (parent === null) {
+      console.error("Haven't parent", this);
+    }
+
     this.components = components;
     this.className = className;
     this.rootComponent = null;
+    this.parent = parent;
+
+    this.state = {
+      counter: 10,
+    };
 
     this.init();
   }
@@ -53,6 +74,49 @@ class TodoApp {
     this.rootComponent = document.createElement("div");
     this.rootComponent.className = this.className;
 
+    this.components = this.initializeComponents();
+    this.render();
+  }
+
+  increment() {
+    this.state.counter += 1;
+    console.log("hello");
+    this.update();
+  }
+
+  update() {
+    // this.components = this.initializeComponents();
+    // this.render();
+    console.log(this);
+    this.init();
+    this.parent.update();
+  }
+
+  initializeComponents() {
+    return [
+      new Component({
+        attributes: { className: "clickButton", textContent: "click me" },
+        htmlTag: "button",
+        listeners: [{ click: this.increment.bind(this) }],
+      }),
+      new Component({
+        attributes: { className: "name1" },
+        components: [
+          new Component({
+            attributes: {
+              className: "name1__child",
+              textContent: `counter ${this.state.counter}`,
+            },
+          }),
+          new Component({
+            attributes: { className: "name1__child", textContent: "child 2" },
+          }),
+        ],
+      }),
+    ];
+  }
+
+  render() {
     for (let elem of this.components) {
       this.rootComponent.appendChild(elem.rootComponent);
     }
@@ -60,50 +124,47 @@ class TodoApp {
 }
 
 class Render {
-  constructor({ components = [], mainBlock = null } = {}) {
-    this.components = components;
+  constructor({ mainBlock = null } = {}) {
+    this.components = [];
     this.mainBlock = mainBlock;
+
+    this.prevComponents = [];
 
     if (this.mainBlock) this.init();
     else console.error("Main block is null");
   }
 
+  initializeComponents() {
+    return [
+      new TodoApp({
+        className: "TodoApp",
+        parent: this,
+      }),
+    ];
+  }
+
   init() {
-    if (this.mainBlock)
-      for (let elem of this.components) {
-        console.log(elem);
-        this.mainBlock.appendChild(elem.rootComponent);
-      }
+    this.components = this.initializeComponents();
+
+    for (let elem of this.components) {
+      this.mainBlock.appendChild(elem.rootComponent);
+    }
+  }
+
+  update() {
+    console.log("render update");
+    console.dir(this.components[0]);
+    for (let i = 0; i < this.components.length; i++) {
+      console.log(this.mainBlock.children[i]);
+      this.mainBlock.children[i].textContent;
+    }
   }
 }
 
 const render = () => {
-  let COMPONENTS = [
-    new TodoApp({
-      className: "TodoApp",
-      components: [
-        new Component({
-          attributes: { className: "clickButton", textContent: "click me" },
-          htmlTag: "button",
-        }),
-        new Component({
-          attributes: { className: "name1" },
-          components: [
-            new Component({
-              attributes: { className: "name1__child", textContent: "child 1" },
-            }),
-            new Component({
-              attributes: { className: "name1__child", textContent: "child 2" },
-            }),
-          ],
-        }),
-      ],
-    }),
-  ];
-
   // render
   let mainBlock = _.$("#app");
-  new Render({ components: COMPONENTS, mainBlock: mainBlock });
+  let render = new Render({ mainBlock: mainBlock });
 };
 
 window.onload = render;
